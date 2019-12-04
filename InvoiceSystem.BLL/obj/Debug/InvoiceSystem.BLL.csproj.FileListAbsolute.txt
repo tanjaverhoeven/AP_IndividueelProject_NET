@@ -1,0 +1,16 @@
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\InvoiceSystem.BLL.dll
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\InvoiceSystem.BLL.pdb
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\InvoiceSystem.DAL.dll
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\EntityFramework.dll
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\InvoiceSystem.DAL.pdb
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\InvoiceSystem.DAL.dll.config
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\EntityFramework.xml
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.csprojAssemblyReference.cache
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.csproj.CoreCompileInputs.cache
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.csproj.CopyComplete
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.dll
+C:\Users\tanja\Desktop\InvoiceSystem\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.pdb
