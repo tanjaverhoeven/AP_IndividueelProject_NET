@@ -64,9 +64,13 @@
     <Compile Include="EntityConfigurations\UserEntityConfiguration.cs" />
     <Compile Include="EntityConfigurations\UserRoleEntityConfiguration.cs" />
     <Compile Include="InvoiceSystemContext.cs" />
-    <Compile Include="Migrations\201911181759010_Initial.cs" />
-    <Compile Include="Migrations\201911181759010_Initial.Designer.cs">
-      <DependentUpon>201911181759010_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201912271255595_Initial.cs" />
+    <Compile Include="Migrations\201912271255595_Initial.Designer.cs">
+      <DependentUpon>201912271255595_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912271451295_Second.cs" />
+    <Compile Include="Migrations\201912271451295_Second.Designer.cs">
+      <DependentUpon>201912271451295_Second.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
@@ -85,15 +89,18 @@
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserRoleRepository.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911181759010_Initial.resx">
-      <DependentUpon>201911181759010_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201912271255595_Initial.resx">
+      <DependentUpon>201912271255595_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912271451295_Second.resx">
+      <DependentUpon>201912271451295_Second.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

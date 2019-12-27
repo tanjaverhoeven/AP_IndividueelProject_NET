@@ -1,19 +1,63 @@
-﻿using InvoiceSystem.DAL.Models;
-using InvoiceSystem.DAL.Repositories;
+﻿using AutoMapper;
+using InvoiceSystem.DAL;
+using InvoiceSystem.DAL.Models;
+using InvoiceSystem.DTO;
 using System.Collections.Generic;
 
 namespace InvoiceSystem.BLL
 {
     public class CityBusinessLogic
     {
-        private CityRepository _cityDA = new CityRepository();
+        private UnitOfWork _unitOfWork;
 
-        public void InsertorUpdate(City t) => _cityDA.InsertorUpdate(t);
+        public CityBusinessLogic()
+        {
+            _unitOfWork = new UnitOfWork();
+        }
 
-        public List<City> All() => _cityDA.All();
+        public static City Map(CityDTO e)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<CityDTO, City>());
+            var mapper = config.CreateMapper();
+            mapper = new Mapper(config);
+            City model = mapper.Map<City>(e);
+            return model;
+        }
 
-        public void Delete(City t) => _cityDA.Delete(t);
+        public static CityDTO Map(City e)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<City, CityDTO>());
+            var mapper = config.CreateMapper();
+            mapper = new Mapper(config);
+            CityDTO dto = mapper.Map<CityDTO>(e);
+            return dto;
+        }
 
-        public City FindById(int? id) => _cityDA.FindById(id);
+        public List<CityDTO> GetAll()
+        {
+            List<CityDTO> cityDTOs = new List<CityDTO>();
+            List<City> cities = _unitOfWork.CityRepo.All();
+
+            foreach (var city in cities)
+            {
+                cityDTOs.Add(Map(city));
+            }
+
+            return cityDTOs;
+        }
+
+        public void InsertorUpdate(CityDTO t)
+        {
+            _unitOfWork.CityRepo.InsertorUpdate(Map(t));
+            _unitOfWork.Save();
+        }
+
+        public void Delete(CityDTO t)
+        {        
+            _unitOfWork.CityRepo.Delete(Map(t));
+            _unitOfWork.Save();
+        }
+
+        public CityDTO FindById(int? id) => Map(_unitOfWork.CityRepo.FindById(id));
     }
 }

@@ -1,0 +1,6 @@
+C:\Users\Dasbach\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DTO\bin\Debug\InvoiceSystem.DTO.dll
+C:\Users\Dasbach\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DTO\bin\Debug\InvoiceSystem.DTO.pdb
+C:\Users\Dasbach\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DTO\obj\Debug\InvoiceSystem.DTO.csproj.CoreCompileInputs.cache
+C:\Users\Dasbach\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DTO\obj\Debug\InvoiceSystem.DTO.dll
+C:\Users\Dasbach\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DTO\obj\Debug\InvoiceSystem.DTO.pdb
+C:\Users\Dasbach\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DTO\obj\Debug\InvoiceSystem.DTO.csprojAssemblyReference.cache
