@@ -25,19 +25,15 @@ namespace InvoiceSystem.DAL.Repositories
             return _context.Costumers.Find(id);
         }
 
-        public void InsertorUpdate(Customer customer)
+        public void Update(Customer customer)
         {
-            if (customer.Id == default(int))
-            {
-                //new entity
-                customer.IsActive = true;
-                _context.Costumers.Add(customer);
-            }
-            else
-            {
-                //Existing entity
-                _context.Entry(customer).State = System.Data.Entity.EntityState.Modified;
-            }
+            _context.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(Customer customer)
+        {
+            customer.IsActive = true;
+            _context.Costumers.Add(customer);
         }
     }
 }

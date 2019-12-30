@@ -3,6 +3,7 @@ using InvoiceSystem.DAL;
 using InvoiceSystem.DAL.Models;
 using InvoiceSystem.DAL.Repositories;
 using InvoiceSystem.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,9 +49,15 @@ namespace InvoiceSystem.BLL
             return detailLineDTOs;
         }
 
-        public void InsertOrUpdate(DetailLineDTO detailLine)
+        public void Update(DetailLineDTO detailLine)
         {
-            _unitOfWork.DetailLineRepo.InsertorUpdate(Map(detailLine));
+            _unitOfWork.DetailLineRepo.Update(Map(detailLine));
+            _unitOfWork.Save();
+        }
+
+        public void Insert(DetailLineDTO detailLine)
+        {
+            _unitOfWork.DetailLineRepo.Insert(Map(detailLine));
             _unitOfWork.Save();
         }
 
@@ -61,5 +68,32 @@ namespace InvoiceSystem.BLL
         }
 
         public DetailLineDTO FindById(int? id) => Map(_unitOfWork.DetailLineRepo.FindById(id));    
+
+        private decimal CalculatePriceExcl(DetailLineDTO detail)
+        {
+            return detail.Amount * detail.UnitPrice; ;
+        }
+
+        private decimal CalculatePriceWithDiscount(DetailLineDTO detail)
+        {
+            return (detail.Discount / 100) * CalculatePriceExcl(detail);
+        }
+
+        public decimal GetTotalPriceIncl(DetailLineDTO detail)
+        {
+            var totalPriceEcxl = CalculatePriceExcl(detail);
+            var discount = CalculatePriceWithDiscount(detail);
+            var vatPerc = detail.VATPercentage / 100;
+
+            return Math.Round((totalPriceEcxl - discount) * (1 + vatPerc), 2);
+        }
+
+        public decimal GetTotalPriceExcl(DetailLineDTO detail)
+        {
+            var totalPriceEcxl = CalculatePriceExcl(detail);
+            var discount = CalculatePriceWithDiscount(detail);
+
+            return Math.Round((totalPriceEcxl - discount), 2);
+        }
     }
 }

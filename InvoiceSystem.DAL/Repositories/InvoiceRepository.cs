@@ -20,19 +20,14 @@ namespace InvoiceSystem.DAL.Repositories
             return _context.Invoices.Find(id);
         }
 
-        public void InsertorUpdate(Invoice invoice)
+        public void Update(Invoice invoice)
         {
-            if (invoice.Id == default(int))
-            {
-                //new entity
-                invoice.IsActive = true;
-                _context.Invoices.Add(invoice);
-            }
-            else
-            {
-                //Existing entity
-                _context.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
-            }
+            _context.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(Invoice invoice)
+        {
+            _context.Invoices.Add(invoice);
         }
 
         public void Delete(Invoice invoice)

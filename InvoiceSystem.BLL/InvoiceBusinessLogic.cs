@@ -11,18 +11,23 @@ namespace InvoiceSystem.BLL
     public class InvoiceBusinessLogic
     {
         private UnitOfWork _unitOfWork;
+        private DetailLineBusinessLogic _detailLogic;
 
         public InvoiceBusinessLogic()
         {
             _unitOfWork = new UnitOfWork();
+            _detailLogic = new DetailLineBusinessLogic();
         }
 
         public static Invoice Map(InvoiceDTO e)
         {
+            UnitOfWork unitOfWork = new UnitOfWork();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDTO, Invoice>());
             var mapper = config.CreateMapper();
             mapper = new Mapper(config);
             Invoice model = mapper.Map<Invoice>(e);
+            model.CustumorId = e.CustumorId;
+            model.Customer = unitOfWork.CustomerRepo.FindById(model.CustumorId);
             return model;
         }
 
@@ -32,6 +37,9 @@ namespace InvoiceSystem.BLL
             var mapper = config.CreateMapper();
             mapper = new Mapper(config);
             InvoiceDTO dto = mapper.Map<InvoiceDTO>(e);
+            CustomerBusinessLogic customerLogic = new CustomerBusinessLogic();
+            dto.CustumorId = e.CustumorId;
+            dto.Customer = customerLogic.FindById(dto.CustumorId);
             return dto;
         }
 
@@ -48,9 +56,18 @@ namespace InvoiceSystem.BLL
             return invoiceDTOs;
         }
 
-        public void InsertorUpdate(InvoiceDTO invoice)
+        public void Update(InvoiceDTO invoice)
         {
-            _unitOfWork.InvoiceRepo.InsertorUpdate(Map(invoice));
+            _unitOfWork.InvoiceRepo.Update(Map(invoice));
+            _unitOfWork.Save();
+        }
+
+        public void Insert(InvoiceDTO invoice)
+        {           
+            invoice.IsActive = true;
+            invoice.State = false;
+            invoice.Code = GetCode(invoice.InvoiceDate);
+            _unitOfWork.InvoiceRepo.Insert(Map(invoice));
             _unitOfWork.Save();
         }
 
@@ -66,7 +83,7 @@ namespace InvoiceSystem.BLL
         {
             Invoice invoice = _unitOfWork.InvoiceRepo.FindById(id);
             invoice.IsActive = false;
-            _unitOfWork.InvoiceRepo.InsertorUpdate(invoice);
+            _unitOfWork.InvoiceRepo.Update(invoice);
             _unitOfWork.Save();
         }
 
@@ -83,47 +100,29 @@ namespace InvoiceSystem.BLL
             }
         }
 
-        //public decimal GetTotalAmount(List<DetailLine> detailLines)
-        //{
-        //    decimal totalAmount = 0;
-        //    foreach (DetailLine detailLine in detailLines)
-        //    {
-        //        totalAmount += detailLine.Amount * detailLine.UnitPrice;
-        //    }
-        //    return totalAmount;
-        //}
+        public decimal GetTotalAmountExcl(InvoiceDTO invoice)
+        {
+            decimal totalPriceExcl = 0;
+            List<DetailLineDTO> details = _detailLogic.GetAll().Where(i => i.InvoiceId == invoice.Id).ToList();
+            foreach (var detail in details)
+            {
+                totalPriceExcl += _detailLogic.GetTotalPriceExcl(detail);
+            }
 
-        //public decimal GetDiscount(List<DetailLine> detailLines)
-        //{
-        //    decimal totalDiscount = 0;
-        //    foreach (DetailLine detailLine in detailLines)
-        //    {
-        //        decimal percentage = detailLine.Discount / 100;
-        //        totalDiscount += detailLine.UnitPrice * detailLine.Amount * percentage;
-        //    }
-        //    return totalDiscount;
-        //}
+            return totalPriceExcl;
+        }
 
-        //public decimal GetVAT(List<DetailLine> detailLines)
-        //{
-        //    decimal totalVAT = 0;
-        //    foreach (DetailLine detailLine in detailLines)
-        //    {
-        //        decimal percentage = detailLine.Discount / 100;
-        //        totalVAT += detailLine.UnitPrice * detailLine.Amount * percentage;
-        //    }
-        //    return totalVAT;
-        //}
+        public decimal GetTotalAmountIncl(InvoiceDTO invoice)
+        {
+            decimal totalPriceIncl = 0;
+            List<DetailLineDTO> details = _detailLogic.GetAll().Where(i => i.InvoiceId == invoice.Id).ToList();
+            foreach (var detail in details)
+            {
+                totalPriceIncl += _detailLogic.GetTotalPriceIncl(detail);
+            }
 
-        //public decimal GetTotalPrice(List<DetailLine> detailLines)
-        //{
-        //    decimal totalAmount = this.GetTotalAmount(detailLines);
-        //    decimal totalDiscount = this.GetDiscount(detailLines);
-        //    decimal totalVAT = this.GetVAT(detailLines);
-
-        //    decimal total = totalAmount - totalDiscount + totalVAT;
-        //    return total;
-        //}
+            return totalPriceIncl;
+        }
 
         //calculate the counter based on the month
         private  int GetCounter(DateTime date)
@@ -135,7 +134,7 @@ namespace InvoiceSystem.BLL
             }
             else
             {
-                return invoices.Max(i => int.Parse(i.Code.Split('-')[2]));
+                return invoices.Max(i => int.Parse(i.Code.Split('-')[1]));
             }
         }
 
@@ -148,16 +147,5 @@ namespace InvoiceSystem.BLL
             string output = $"{year}-{month}-{++counter:0000}";
             return output;
         }
-
-        ////compare months to reset counter after each month
-        //public bool HasDifferentMonth(Invoice oldInvoice, Invoice newInvoice)
-        //{
-        //    bool output = false;
-        //    if (oldInvoice.InvoiceDate.Month != newInvoice.InvoiceDate.Month)
-        //    {
-        //        output = true;
-        //    }
-        //    return output;
-        //}
     }
 }

@@ -52,9 +52,15 @@ namespace InvoiceSystem.BLL
             return customerDTOs;
         }
 
-        public void InsertorUpdate(CustomerDTO customer)
+        public void Insert(CustomerDTO customer)
         {
-            _unitOfWork.CustomerRepo.InsertorUpdate(Map(customer));
+            _unitOfWork.CustomerRepo.Insert(Map(customer));
+            _unitOfWork.Save();
+        }
+
+        public void Update(CustomerDTO customer)
+        {
+            _unitOfWork.CustomerRepo.Update(Map(customer));
             _unitOfWork.Save();
         }
 
@@ -70,7 +76,7 @@ namespace InvoiceSystem.BLL
         {
             Customer customer = _unitOfWork.CustomerRepo.FindById(id);
             customer.IsActive = true;
-            _unitOfWork.CustomerRepo.InsertorUpdate(customer);
+            _unitOfWork.CustomerRepo.Update(customer);
             _unitOfWork.Save();
         }
     }

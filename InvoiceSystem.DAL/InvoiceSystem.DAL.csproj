@@ -58,7 +58,7 @@
     <Compile Include="EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="EntityConfigurations\DetailLineEntityConfiguration.cs" />
     <Compile Include="EntityConfigurations\IdentityUserLoginEntityConfiguration.cs" />
-    <Compile Include="EntityConfigurations\IdentityUserRoleEntityConfiguration.cs" />
+    <Compile Include="EntityConfigurations\IdentityUserRoleEnitityConfiguration.cs" />
     <Compile Include="EntityConfigurations\InvoiceEntityConfiguration.cs" />
     <Compile Include="EntityConfigurations\RoleEntityConfiguration.cs" />
     <Compile Include="EntityConfigurations\UserEntityConfiguration.cs" />
@@ -86,9 +86,6 @@
     <Compile Include="Repositories\DetailLineRepository.cs" />
     <Compile Include="Repositories\IEntityRepository.cs" />
     <Compile Include="Repositories\InvoiceRepository.cs" />
-    <Compile Include="Repositories\RoleRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Repositories\UserRoleRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

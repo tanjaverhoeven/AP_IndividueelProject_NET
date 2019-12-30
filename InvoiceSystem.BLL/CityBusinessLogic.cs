@@ -46,9 +46,15 @@ namespace InvoiceSystem.BLL
             return cityDTOs;
         }
 
+        public void Update(CityDTO t)
+        {
+            _unitOfWork.CityRepo.Update(Map(t));
+            _unitOfWork.Save();
+        }
+
         public void InsertorUpdate(CityDTO t)
         {
-            _unitOfWork.CityRepo.InsertorUpdate(Map(t));
+            _unitOfWork.CityRepo.Insert(Map(t));
             _unitOfWork.Save();
         }
 

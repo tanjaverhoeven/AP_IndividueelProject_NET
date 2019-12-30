@@ -60,11 +60,11 @@ namespace InvoiceSystem.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _customerLogic.InsertorUpdate(customerDTO);
+                _customerLogic.Insert(customerDTO);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CityDTO = new SelectList(_cityLogic.GetAll(), "Id", "Postal", customerDTO.CityId);
+            ViewBag.CityId = new SelectList(_cityLogic.GetAll(), "Id", "Postal", customerDTO.CityId);
             return View(customerDTO);
         }
 
@@ -94,7 +94,7 @@ namespace InvoiceSystem.MVC.Controllers
             if (ModelState.IsValid)
             {
                 customerDTO.IsActive = true;
-                _customerLogic.InsertorUpdate(customerDTO);
+                _customerLogic.Update(customerDTO);
                 return RedirectToAction("Index");
             }
             ViewBag.CityId = new SelectList(_cityLogic.GetAll(), "Id", "Postal", customerDTO.CityId);

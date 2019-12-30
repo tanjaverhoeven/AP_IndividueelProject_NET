@@ -1,5 +1,7 @@
 ﻿using InvoiceSystem.BLL;
 using InvoiceSystem.DTO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -8,17 +10,22 @@ namespace InvoiceSystem.MVC.Controllers
     public class InvoiceController : Controller
     {
         private InvoiceBusinessLogic _invoiceLogic;
+        private CustomerBusinessLogic _customerLogic;
+        private DetailLineBusinessLogic _detailLogic;
 
         public InvoiceController()
         {
             _invoiceLogic = new InvoiceBusinessLogic();
+            _customerLogic = new CustomerBusinessLogic();
+            _detailLogic = new DetailLineBusinessLogic();
         }
+
         // GET: InvoiceDTOes
         public ActionResult Index()
         {
             return View(_invoiceLogic.GetAll());
         }
-
+        
         // GET: InvoiceDTOes/Details/5
         public ActionResult Details(int? id)
         {
@@ -27,6 +34,10 @@ namespace InvoiceSystem.MVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             InvoiceDTO invoiceDTO = _invoiceLogic.FindById(id);
+            List<DetailLineDTO> detailLines = _detailLogic.GetAll().Where(i => i.InvoiceId == invoiceDTO.Id).ToList();
+            invoiceDTO.DetailLines = detailLines;
+            ViewBag.TotalPriceExcl = _invoiceLogic.GetTotalAmountExcl(invoiceDTO);
+            ViewBag.TotalPriceIncl = _invoiceLogic.GetTotalAmountIncl(invoiceDTO);
             if (invoiceDTO == null)
             {
                 return HttpNotFound();
@@ -37,6 +48,7 @@ namespace InvoiceSystem.MVC.Controllers
         // GET: InvoiceDTOes/Create
         public ActionResult Create()
         {
+            ViewBag.CustumorId = new SelectList(_customerLogic.GetActiveCustomers(), "Id", "Name");
             return View();
         }
 
@@ -49,10 +61,10 @@ namespace InvoiceSystem.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _invoiceLogic.InsertorUpdate(invoiceDTO);
+                _invoiceLogic.Insert(invoiceDTO);
                 return RedirectToAction("Index");
             }
-
+            ViewBag.CustumorId = new SelectList(_customerLogic.GetActiveCustomers(), "Id", "Name", invoiceDTO.CustumorId);
             return View(invoiceDTO);
         }
 
@@ -68,6 +80,7 @@ namespace InvoiceSystem.MVC.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CustumorId = new SelectList(_customerLogic.GetActiveCustomers(), "Id", "Name", invoiceDTO.CustumorId);
             return View(invoiceDTO);
         }
 
@@ -80,9 +93,10 @@ namespace InvoiceSystem.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _invoiceLogic.InsertorUpdate(invoiceDTO);                
+                _invoiceLogic.Update(invoiceDTO);                
                 return RedirectToAction("Index");
             }
+            ViewBag.CustumorId = new SelectList(_customerLogic.GetActiveCustomers(), "Id", "Name", invoiceDTO.CustumorId);
             return View(invoiceDTO);
         }
 
@@ -102,13 +116,20 @@ namespace InvoiceSystem.MVC.Controllers
         }
 
         // POST: InvoiceDTOes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete([Bind(Include = "Id,CustumorId,InvoiceDate,Code,State,IsActive,Reason")] InvoiceDTO invoiceDTO)
         {
-            InvoiceDTO invoiceDTO = _invoiceLogic.FindById(id);
-            _invoiceLogic.Delete(invoiceDTO);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                if (invoiceDTO.DetailLines.Count == 0)
+                {
+                    invoiceDTO.IsActive = false;
+                    _invoiceLogic.Update(invoiceDTO);
+                    return RedirectToAction("Index");
+                }  
+            }
+            return View(invoiceDTO);
         }
     }
 }

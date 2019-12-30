@@ -22,18 +22,14 @@ namespace InvoiceSystem.DAL.Repositories
 
         public City FindById(int? id) => _context.Cities.Find(id);
 
-        public void InsertorUpdate(City city)
+        public void Update(City city)
         {
-            if (city.Id == default(int))
-            {
-                //new entity
-                _context.Cities.Add(city);
-            }
-            else
-            {
-                //Existing entity
-                _context.Entry(city).State = System.Data.Entity.EntityState.Modified;
-            }
+            _context.Entry(city).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(City city)
+        {
+            _context.Cities.Add(city);
         }
     }
 }
