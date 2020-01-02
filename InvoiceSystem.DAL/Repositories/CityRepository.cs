@@ -6,32 +6,30 @@ namespace InvoiceSystem.DAL.Repositories
 {
     public class CityRepository :IEnitityRepository<City>
     {
-        private InvoiceSystemContext context = new InvoiceSystemContext();
+        private InvoiceSystemContext _context;
 
-        public List<City> All() => context.Cities.ToList();
+        public CityRepository(InvoiceSystemContext context)
+        {
+            _context = context;
+        }
+
+        public List<City> All() => _context.Cities.ToList();
 
         public void Delete(City city)
         {
-            context.Cities.Remove(city);
-            context.SaveChanges();
+            _context.Cities.Remove(city);
         }
 
-        public City FindById(int? id) => context.Cities.Find(id);
+        public City FindById(int? id) => _context.Cities.Find(id);
 
-        public void InsertorUpdate(City city)
+        public void Update(City city)
         {
-            if (city.Id == default(int))
-            {
-                //new entity
-                context.Cities.Add(city);
-                context.SaveChanges();
-            }
-            else
-            {
-                //Existing entity
-                context.Entry(city).State = System.Data.Entity.EntityState.Modified;
-                context.SaveChanges();
-            }
+            _context.Entry(city).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(City city)
+        {
+            _context.Cities.Add(city);
         }
     }
 }

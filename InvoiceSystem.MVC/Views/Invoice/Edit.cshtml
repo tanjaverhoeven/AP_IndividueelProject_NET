@@ -1,0 +1,55 @@
+﻿@model InvoiceSystem.DTO.InvoiceDTO
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<h4>InvoiceDTO</h4>
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Customer.Name)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Customer.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.InvoiceDate)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.InvoiceDate)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Code)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Code)
+    </dd>
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

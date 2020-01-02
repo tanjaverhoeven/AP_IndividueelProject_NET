@@ -26,7 +26,9 @@ namespace InvoiceSystem.DAL
             modelBuilder.Configurations.Add(new UserEntityConfiguration());
             modelBuilder.Configurations.Add(new UserRoleEntityConfiguration());
             modelBuilder.Configurations.Add(new IdentityUserLoginEntityConfiguration());
-            modelBuilder.Configurations.Add(new IdentityUserRoleEntityConfiguration());
+            modelBuilder.Configurations.Add(new IdentityUserRoleEnitityConfiguration());
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

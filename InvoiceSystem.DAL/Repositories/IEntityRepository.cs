@@ -7,7 +7,8 @@ namespace InvoiceSystem.DAL.Repositories
     {
         List<T> All();
         T FindById(int? id);
-        void InsertorUpdate(T t);
+        void Insert(T t);
+        void Update(T t);
         void Delete(T t);
     }
 }

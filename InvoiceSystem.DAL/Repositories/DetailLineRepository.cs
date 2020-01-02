@@ -6,35 +6,32 @@ namespace InvoiceSystem.DAL.Repositories
 {
     public class DetailLineRepository : IEnitityRepository<DetailLine>
     {
-        InvoiceSystemContext context = new InvoiceSystemContext();
+        private InvoiceSystemContext _context;
 
-        public List<DetailLine> All() => context.DetailLines.ToList();
+        public DetailLineRepository(InvoiceSystemContext context)
+        {
+            _context = context;
+        }
+        public List<DetailLine> All() => _context.DetailLines.ToList();
 
         public DetailLine FindById(int? id)
         {
-            return context.DetailLines.Find(id);
+            return _context.DetailLines.Find(id);
         }
 
-        public void InsertorUpdate(DetailLine invoiceDetail)
+        public void Update(DetailLine invoiceDetail)
         {
-            if (invoiceDetail.Id == default(int))
-            {
-                //new entity
-                context.DetailLines.Add(invoiceDetail);
-                context.SaveChanges();
-            }
-            else
-            {
-                //Existing entity
-                context.Entry(invoiceDetail).State = System.Data.Entity.EntityState.Modified;
-                context.SaveChanges();
-            }
+            _context.Entry(invoiceDetail).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(DetailLine invoiceDetail)
+        {
+            _context.DetailLines.Add(invoiceDetail);
         }
 
         public void Delete(DetailLine invoiceDetail)
         {
-            context.DetailLines.Remove(invoiceDetail);
-            context.SaveChanges();
+            _context.DetailLines.Remove(invoiceDetail);
         }
     }
 }

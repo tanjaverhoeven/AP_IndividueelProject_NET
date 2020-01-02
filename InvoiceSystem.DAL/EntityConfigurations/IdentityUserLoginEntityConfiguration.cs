@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace InvoiceSystem.DAL.EntityConfigurations
 {
-    public class IdentityUserLoginEntityConfiguration : EntityTypeConfiguration<IdentityUserLogin>
+    class IdentityUserLoginEntityConfiguration : EntityTypeConfiguration<IdentityUserLogin>
     {
         public IdentityUserLoginEntityConfiguration()
         {

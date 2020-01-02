@@ -6,35 +6,34 @@ namespace InvoiceSystem.DAL.Repositories
 {
     public class CustomerRepository : IEnitityRepository<Customer>
     {
-        InvoiceSystemContext context = new InvoiceSystemContext();
+        private InvoiceSystemContext _context;
 
-        public List<Customer> All() => context.Costumers.ToList();
+        public CustomerRepository(InvoiceSystemContext context)
+        {
+            _context = context;
+        }
+
+        public List<Customer> All() => _context.Costumers.ToList();
 
         public void Delete(Customer customer)
         { 
-            context.Costumers.Remove(customer);
-            context.SaveChanges();
+            _context.Costumers.Remove(customer);
         }
 
         public Customer FindById(int? id)
         {
-            return context.Costumers.Find(id);
+            return _context.Costumers.Find(id);
         }
 
-        public void InsertorUpdate(Customer customer)
+        public void Update(Customer customer)
         {
-            if (customer.Id == default(int))
-            {
-                //new entity
-                context.Costumers.Add(customer);
-                context.SaveChanges();
-            }
-            else
-            {
-                //Existing entity
-                context.Entry(customer).State = System.Data.Entity.EntityState.Modified;
-                context.SaveChanges();
-            }
+            _context.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(Customer customer)
+        {
+            customer.IsActive = true;
+            _context.Costumers.Add(customer);
         }
     }
 }

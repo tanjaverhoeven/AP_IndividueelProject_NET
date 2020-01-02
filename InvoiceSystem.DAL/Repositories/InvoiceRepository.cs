@@ -6,36 +6,33 @@ namespace InvoiceSystem.DAL.Repositories
 {
     public class InvoiceRepository :IEnitityRepository<Invoice>
     {
-        InvoiceSystemContext context = new InvoiceSystemContext();
+        private InvoiceSystemContext _context;
 
-        public List<Invoice> All() => context.Invoices.ToList();
+        public InvoiceRepository(InvoiceSystemContext context)
+        {
+            _context = context;
+        }
+
+        public List<Invoice> All() => _context.Invoices.ToList();
 
         public Invoice FindById(int? id)
         {
-            return context.Invoices.Find(id);
+            return _context.Invoices.Find(id);
         }
 
-        public void InsertorUpdate(Invoice invoice)
+        public void Update(Invoice invoice)
         {
-            if (invoice.Id == default(int))
-            {
-                //new entity
-                invoice.IsActive = true;
-                context.Invoices.Add(invoice);
-                context.SaveChanges();
-            }
-            else
-            {
-                //Existing entity
-                context.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
-                context.SaveChanges();
-            }
+            _context.Entry(invoice).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void Insert(Invoice invoice)
+        {
+            _context.Invoices.Add(invoice);
         }
 
         public void Delete(Invoice invoice)
         {
-            context.Invoices.Remove(invoice);
-            context.SaveChanges();
+            _context.Invoices.Remove(invoice);
         }
     }
 }

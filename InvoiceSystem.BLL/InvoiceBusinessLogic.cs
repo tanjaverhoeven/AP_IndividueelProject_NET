@@ -1,5 +1,7 @@
-﻿using InvoiceSystem.DAL.Models;
-using InvoiceSystem.DAL.Repositories;
+﻿using AutoMapper;
+using InvoiceSystem.DAL;
+using InvoiceSystem.DAL.Models;
+using InvoiceSystem.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,93 +10,131 @@ namespace InvoiceSystem.BLL
 {
     public class InvoiceBusinessLogic
     {
-        private InvoiceRepository _invoiceDA = new InvoiceRepository();
-        private DetailLineBusinessLogic _detailLineDA = new DetailLineBusinessLogic();
+        private UnitOfWork _unitOfWork;
+        private DetailLineBusinessLogic _detailLogic;
 
-        public void InsertorUpdate(Invoice invoice) => _invoiceDA.InsertorUpdate(invoice);
+        public InvoiceBusinessLogic()
+        {
+            _unitOfWork = new UnitOfWork();
+            _detailLogic = new DetailLineBusinessLogic();
+        }
 
-        public void Delete(Invoice invoice) => _invoiceDA.Delete(invoice);
+        public static Invoice Map(InvoiceDTO e)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDTO, Invoice>());
+            var mapper = config.CreateMapper();
+            mapper = new Mapper(config);
+            Invoice model = mapper.Map<Invoice>(e);
+            model.CustumorId = e.CustumorId;
+            model.Customer = unitOfWork.CustomerRepo.FindById(model.CustumorId);
+            return model;
+        }
 
-        public Invoice FindById(int? id) => _invoiceDA.FindById(id);
+        public static InvoiceDTO Map(Invoice e)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDTO>());
+            var mapper = config.CreateMapper();
+            mapper = new Mapper(config);
+            InvoiceDTO dto = mapper.Map<InvoiceDTO>(e);
+            CustomerBusinessLogic customerLogic = new CustomerBusinessLogic();
+            dto.CustumorId = e.CustumorId;
+            dto.Customer = customerLogic.FindById(dto.CustumorId);
+            return dto;
+        }
 
-        public List<Invoice> GetAll() => _invoiceDA.All().Where(i => i.IsActive == true).ToList();
+        public List<InvoiceDTO> GetAll()
+        {
+            List<InvoiceDTO> invoiceDTOs = new List<InvoiceDTO>();
+            List<Invoice> invoices = _unitOfWork.InvoiceRepo.All().Where(i => i.IsActive == true).ToList();
+
+            foreach (var invoice in invoices)
+            {
+                invoiceDTOs.Add(Map(invoice));
+            }
+
+            return invoiceDTOs;
+        }
+
+        public void Update(InvoiceDTO invoice)
+        {
+            _unitOfWork.InvoiceRepo.Update(Map(invoice));
+            _unitOfWork.Save();
+        }
+
+        public void Insert(InvoiceDTO invoice)
+        {           
+            invoice.IsActive = true;
+            invoice.State = false;
+            invoice.Code = GetCode(invoice.InvoiceDate);
+            _unitOfWork.InvoiceRepo.Insert(Map(invoice));
+            _unitOfWork.Save();
+        }
+
+        public void Delete(InvoiceDTO invoice)
+        {
+            _unitOfWork.InvoiceRepo.Delete(Map(invoice));
+            _unitOfWork.Save();
+        }
+
+        public InvoiceDTO FindById(int? id) => Map(_unitOfWork.InvoiceRepo.FindById(id));
 
         public void SetInvoiceInactive(int? id)
         {
-            Invoice invoice = _invoiceDA.FindById(id);
+            Invoice invoice = _unitOfWork.InvoiceRepo.FindById(id);
             invoice.IsActive = false;
-            _invoiceDA.InsertorUpdate(invoice);
+            _unitOfWork.InvoiceRepo.Update(invoice);
+            _unitOfWork.Save();
         }
 
-        public bool HasDetailLines(Invoice invoice)
+        public bool HasDetailLines(InvoiceDTO invoice)
         {
-            bool hasDetailLines;
-            List<DetailLine> detailLines = _detailLineDA.FindByInvoice(invoice);
-            if (detailLines.Count > 0)
+            int amountLines = Map(invoice).DetailLines.Count;
+            if (invoice.DetailLines.Count > 0)
             {
-                hasDetailLines = true;
+                return true;
             }
             else
             {
-                hasDetailLines = false;
+                return false;
             }
-            return hasDetailLines;
         }
 
-
-        public decimal GetTotalAmount(List<DetailLine> detailLines)
+        public decimal GetTotalAmountExcl(InvoiceDTO invoice)
         {
-            decimal totalAmount = 0;
-            foreach (DetailLine detailLine in detailLines)
+            decimal totalPriceExcl = 0;
+            List<DetailLineDTO> details = _detailLogic.GetAll().Where(i => i.InvoiceId == invoice.Id).ToList();
+            foreach (var detail in details)
             {
-                totalAmount += detailLine.Amount * detailLine.UnitPrice;
+                totalPriceExcl += _detailLogic.GetTotalPriceExcl(detail);
             }
-            return totalAmount;
+
+            return totalPriceExcl;
         }
 
-        public decimal GetDiscount(List<DetailLine> detailLines)
+        public decimal GetTotalAmountIncl(InvoiceDTO invoice)
         {
-            decimal totalDiscount = 0;
-            foreach (DetailLine detailLine in detailLines)
+            decimal totalPriceIncl = 0;
+            List<DetailLineDTO> details = _detailLogic.GetAll().Where(i => i.InvoiceId == invoice.Id).ToList();
+            foreach (var detail in details)
             {
-                decimal percentage = detailLine.Discount / 100;
-                totalDiscount += detailLine.UnitPrice * detailLine.Amount * percentage;
+                totalPriceIncl += _detailLogic.GetTotalPriceIncl(detail);
             }
-            return totalDiscount;
-        }
 
-        public decimal GetVAT(List<DetailLine> detailLines)
-        {
-            decimal totalVAT = 0;
-            foreach (DetailLine detailLine in detailLines)
-            {
-                decimal percentage = detailLine.Discount / 100;
-                totalVAT += detailLine.UnitPrice * detailLine.Amount * percentage;
-            }
-            return totalVAT;
-        }
-
-        public decimal GetTotalPrice(List<DetailLine> detailLines)
-        {
-            decimal totalAmount = this.GetTotalAmount(detailLines);
-            decimal totalDiscount = this.GetDiscount(detailLines);
-            decimal totalVAT = this.GetVAT(detailLines);
-
-            decimal total = totalAmount - totalDiscount + totalVAT;
-            return total;
+            return totalPriceIncl;
         }
 
         //calculate the counter based on the month
-        public int GetCounter(DateTime date)
+        private  int GetCounter(DateTime date)
         {
-            List<Invoice> invoices = this._invoiceDA.All().Where(i => i.InvoiceDate.Month == date.Month).ToList();
+            List<Invoice> invoices = this._unitOfWork.InvoiceRepo.All().Where(i => i.InvoiceDate.Month == date.Month).ToList();
             if (invoices.Count == 0)
             {
                 return 0;
             }
             else
             {
-                return invoices.Max(i => int.Parse(i.Code.Split('-')[2]));
+                return invoices.Max(i => int.Parse(i.Code.Split('-')[1]));
             }
         }
 
@@ -105,17 +145,6 @@ namespace InvoiceSystem.BLL
             string month = date.Month.ToString("D2");
             int counter = GetCounter(date);
             string output = $"{year}-{month}-{++counter:0000}";
-            return output;
-        }
-
-        //compare months to reset counter after each month
-        public bool HasDifferentMonth(Invoice oldInvoice, Invoice newInvoice)
-        {
-            bool output = false;
-            if (oldInvoice.InvoiceDate.Month != newInvoice.InvoiceDate.Month)
-            {
-                output = true;
-            }
             return output;
         }
     }
