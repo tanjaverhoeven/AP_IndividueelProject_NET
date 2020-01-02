@@ -90,11 +90,15 @@
                     @Html.DisplayFor(modelItem => item.VATPercentage)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Verwijder deze lijn", "Delete", "DetailLine", new { id = item.InvoiceId }, null)
+                    @Html.ActionLink("Wijzig", "Edit", "DetailLine", new { id = item.InvoiceId }, null)
                 </td>
             </tr>
         }
+
+        <tr>
+            @Html.ActionLink("Detaillijn toevoegen", "Create", "DetailLine", new { id = Model.Id }, null)
+        </tr>
 
     </table>
     <div align="right">

@@ -122,7 +122,7 @@ namespace InvoiceSystem.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (invoiceDTO.DetailLines.Count == 0)
+                if (_invoiceLogic.GetDetaillinesCount(invoiceDTO) == 0)
                 {
                     invoiceDTO.IsActive = false;
                     _invoiceLogic.Update(invoiceDTO);

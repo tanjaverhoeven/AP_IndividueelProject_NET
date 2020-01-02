@@ -147,5 +147,19 @@ namespace InvoiceSystem.BLL
             string output = $"{year}-{month}-{++counter:0000}";
             return output;
         }
+
+        public int GetDetaillinesCount(InvoiceDTO invoice)
+        {
+            int counter = 0;
+            List<DetailLineDTO> detailLineDTOs = _detailLogic.GetAll();
+            foreach (var item in detailLineDTOs)
+            {
+                if (item.InvoiceId == invoice.Id)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
     }
 }

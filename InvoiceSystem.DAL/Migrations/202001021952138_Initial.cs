@@ -28,14 +28,13 @@ namespace InvoiceSystem.DAL.Migrations
                         Street = c.String(nullable: false, maxLength: 200, unicode: false),
                         HouseNr = c.String(nullable: false, maxLength: 4, unicode: false),
                         Bus = c.String(maxLength: 4, unicode: false),
-                        CityId = c.String(nullable: false),
+                        CityId = c.Int(nullable: false),
                         PhoneNr = c.String(nullable: false, maxLength: 90, unicode: false),
                         VAT = c.String(nullable: false, maxLength: 90, unicode: false),
-                        City_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.City", t => t.City_Id)
-                .Index(t => t.City_Id);
+                .ForeignKey("dbo.City", t => t.CityId, cascadeDelete: true)
+                .Index(t => t.CityId);
             
             CreateTable(
                 "dbo.Invoice",
@@ -174,7 +173,7 @@ namespace InvoiceSystem.DAL.Migrations
             DropForeignKey("dbo.User", "CityId", "dbo.City");
             DropForeignKey("dbo.DetailLine", "InvoiceId", "dbo.Invoice");
             DropForeignKey("dbo.Invoice", "Customer_Id", "dbo.Customer");
-            DropForeignKey("dbo.Customer", "City_Id", "dbo.City");
+            DropForeignKey("dbo.Customer", "CityId", "dbo.City");
             DropIndex("dbo.UserRole", new[] { "User_IdU" });
             DropIndex("dbo.UserRole", new[] { "RoleId" });
             DropIndex("dbo.IdentityUserRole", new[] { "User_IdU" });
@@ -183,7 +182,7 @@ namespace InvoiceSystem.DAL.Migrations
             DropIndex("dbo.User", new[] { "CityId" });
             DropIndex("dbo.DetailLine", new[] { "InvoiceId" });
             DropIndex("dbo.Invoice", new[] { "Customer_Id" });
-            DropIndex("dbo.Customer", new[] { "City_Id" });
+            DropIndex("dbo.Customer", new[] { "CityId" });
             DropTable("dbo.UserRole");
             DropTable("dbo.IdentityUserRole");
             DropTable("dbo.IdentityUserLogin");
