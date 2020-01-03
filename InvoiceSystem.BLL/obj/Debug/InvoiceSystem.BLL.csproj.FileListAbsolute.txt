@@ -55,3 +55,6 @@ C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\obj\Debug\Inv
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.csproj.CopyComplete
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.dll
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\obj\Debug\InvoiceSystem.BLL.pdb
+C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\bin\Debug\InvoiceSystem.BLL.dll.config
+C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.BLL\bin\Debug\EntityFramework.SqlServer.xml

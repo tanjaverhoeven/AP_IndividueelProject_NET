@@ -87,11 +87,15 @@
                     @Html.DisplayFor(modelItem => item.VATPercentage)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.VATPercentage)
+                    @ViewBag.TotalPriceExcl
                 </td>
                 <td>
-                    @Html.ActionLink("Verwijder deze lijn", "Delete", "DetailLine", new { id = item.InvoiceId }, null)
-                    @Html.ActionLink("Wijzig", "Edit", "DetailLine", new { id = item.InvoiceId }, null)
+                    @ViewBag.TotalPriceIncl
+                </td>
+                <td>
+                    @Html.ActionLink("Wijzig", "Edit", "DetailLine", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "DetailLine", new { id = item.Id }, null)
+
                 </td>
             </tr>
         }

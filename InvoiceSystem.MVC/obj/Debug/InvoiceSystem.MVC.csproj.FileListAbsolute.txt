@@ -227,3 +227,4 @@ C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.MVC\obj\Debug\Inv
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.MVC\obj\Debug\InvoiceSystem.MVC.csproj.CopyComplete
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.MVC\obj\Debug\InvoiceSystem.MVC.dll
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.MVC\obj\Debug\InvoiceSystem.MVC.pdb
+C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.MVC\bin\InvoiceSystem.BLL.dll.config

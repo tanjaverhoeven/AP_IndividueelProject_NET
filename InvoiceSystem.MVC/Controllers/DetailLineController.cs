@@ -63,10 +63,10 @@ namespace InvoiceSystem.MVC.Controllers
             {
                 detailLineDTO.InvoiceId = _invoiceLogic.FindById(InvoiceId.Id).Id;
                 _detailLogic.Insert(detailLineDTO);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Invoice", new { id = detailLineDTO.InvoiceId });
             }
 
-            //ViewBag.InvoiceId = new SelectList(db.InvoiceDTOes, "Id", "Code", detailLineDTO.InvoiceId);
+            ViewBag.InvoiceId = _invoiceLogic.FindById(detailLineDTO.InvoiceId);
             return View(detailLineDTO);
         }
 
@@ -82,7 +82,7 @@ namespace InvoiceSystem.MVC.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.InvoiceId = new SelectList(db.InvoiceDTOes, "Id", "Code", detailLineDTO.InvoiceId);
+            ViewBag.InvoiceId = _invoiceLogic.FindById(detailLineDTO.InvoiceId);
             return View(detailLineDTO);
         }
 
@@ -96,9 +96,9 @@ namespace InvoiceSystem.MVC.Controllers
             if (ModelState.IsValid)
             {
                 _detailLogic.Update(detailLineDTO);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Invoice", new { id = detailLineDTO.InvoiceId });
             }
-            //ViewBag.InvoiceId = new SelectList(db.InvoiceDTOes, "Id", "Code", detailLineDTO.InvoiceId);
+            ViewBag.InvoiceId = _invoiceLogic.FindById(detailLineDTO.InvoiceId);
             return View(detailLineDTO);
         }
 
@@ -124,7 +124,7 @@ namespace InvoiceSystem.MVC.Controllers
         {
             DetailLineDTO detailLineDTO = _detailLogic.FindById(id);
             _detailLogic.Delete(detailLineDTO);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Invoice", new { id = detailLineDTO.InvoiceId });
         }
     }
 }
