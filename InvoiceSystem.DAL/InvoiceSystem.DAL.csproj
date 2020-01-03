@@ -122,13 +122,9 @@
     <Compile Include="EntityConfigurations\UserEntityConfiguration.cs" />
     <Compile Include="EntityConfigurations\UserRoleEntityConfiguration.cs" />
     <Compile Include="InvoiceSystemContext.cs" />
-    <Compile Include="Migrations\202001021952138_Initial.cs" />
-    <Compile Include="Migrations\202001021952138_Initial.Designer.cs">
-      <DependentUpon>202001021952138_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001022031305_second.cs" />
-    <Compile Include="Migrations\202001022031305_second.Designer.cs">
-      <DependentUpon>202001022031305_second.cs</DependentUpon>
+    <Compile Include="Migrations\202001031059325_Initial.cs" />
+    <Compile Include="Migrations\202001031059325_Initial.Designer.cs">
+      <DependentUpon>202001031059325_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
@@ -153,11 +149,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001021952138_Initial.resx">
-      <DependentUpon>202001021952138_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001022031305_second.resx">
-      <DependentUpon>202001022031305_second.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001031059325_Initial.resx">
+      <DependentUpon>202001031059325_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

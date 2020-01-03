@@ -1,11 +1,11 @@
 namespace InvoiceSystem.DAL.Migrations
 {
+    using InvoiceSystem.DAL.Models;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using InvoiceSystem.DAL.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<InvoiceSystem.DAL.InvoiceSystemContext>
     {
@@ -16,18 +16,6 @@ namespace InvoiceSystem.DAL.Migrations
 
         protected override void Seed(InvoiceSystem.DAL.InvoiceSystemContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
             List<City> defaultCities = new List<City>();
 
             defaultCities.Add(new City() { Postal = "Antwerpen", CityName = "2000" });

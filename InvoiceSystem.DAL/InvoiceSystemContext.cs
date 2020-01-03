@@ -1,10 +1,11 @@
 ﻿using InvoiceSystem.DAL.EntityConfigurations;
 using InvoiceSystem.DAL.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
 namespace InvoiceSystem.DAL
 {
-    public class InvoiceSystemContext :DbContext
+    public class InvoiceSystemContext : DbContext
     {
         public InvoiceSystemContext() : base("InvoiceSystem") { }
 
