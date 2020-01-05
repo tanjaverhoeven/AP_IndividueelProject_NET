@@ -185,3 +185,4 @@ C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DAL\bin\Debug\Sys
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DAL\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DAL\obj\Debug\InvoiceSystem.DAL.Migrations.Initial.resources
 C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DAL\obj\Debug\InvoiceSystem.DAL.csproj.GenerateResource.cache
+C:\Users\tanja\Desktop\AP_IndividueelProject_NET\InvoiceSystem.DAL\obj\Debug\InvoiceSystem.DAL.Migrations.Identity.resources

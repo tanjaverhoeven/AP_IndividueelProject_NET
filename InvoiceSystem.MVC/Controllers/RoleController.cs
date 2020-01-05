@@ -5,22 +5,27 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using InvoiceSystem.BLL;
+using InvoiceSystem.MVC.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace InvoiceSystem.MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private RoleBusinessLogic _roleLogic;
+        private ApplicationDbContext _dbContext;
 
         public RoleController()
         {
-            _roleLogic = new RoleBusinessLogic();
+            _dbContext = new ApplicationDbContext();
+            _roleLogic = new RoleBusinessLogic(new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_dbContext)));
         }
 
         public ActionResult Index()
         {
-            return View(_roleLogic.GetAll());
+            return View(_roleLogic.All());
         }
 
         // GET: Roles/Details/5

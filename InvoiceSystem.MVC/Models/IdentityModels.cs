@@ -21,7 +21,7 @@ namespace InvoiceSystem.MVC.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("InvoiceSystem", throwIfV1Schema: false)
         {
         }
 

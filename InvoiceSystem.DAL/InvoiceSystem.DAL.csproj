@@ -126,6 +126,10 @@
     <Compile Include="Migrations\202001031059325_Initial.Designer.cs">
       <DependentUpon>202001031059325_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001051129323_Identity.cs" />
+    <Compile Include="Migrations\202001051129323_Identity.Designer.cs">
+      <DependentUpon>202001051129323_Identity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -151,6 +155,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001031059325_Initial.resx">
       <DependentUpon>202001031059325_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051129323_Identity.resx">
+      <DependentUpon>202001051129323_Identity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

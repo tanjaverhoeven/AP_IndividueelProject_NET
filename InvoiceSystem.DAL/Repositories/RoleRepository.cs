@@ -12,11 +12,11 @@ namespace InvoiceSystem.DAL.Repositories
     public class RoleRepository : IEnitityRepository<IdentityRole>
     {
         private RoleManager<IdentityRole> _roleManager;
-        private InvoiceSystemContext _context = new InvoiceSystemContext();
+        //private InvoiceSystemContext _context = new InvoiceSystemContext();
 
-        public RoleRepository()
+        public RoleRepository(RoleManager<IdentityRole> roleManager)
         {
-            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_context));
+            _roleManager = roleManager;
         }
         public List<IdentityRole> All()
         {

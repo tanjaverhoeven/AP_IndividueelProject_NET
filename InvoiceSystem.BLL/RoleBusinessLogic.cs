@@ -4,42 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using InvoiceSystem.DAL.Repositories;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace InvoiceSystem.BLL
 {
     public class RoleBusinessLogic
     {
-        private RoleRepository _roleRepo;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RoleBusinessLogic()
+        public RoleBusinessLogic(RoleManager<IdentityRole> roleManager)
         {
-            _roleRepo = new RoleRepository();
+            _roleManager = roleManager;
         }
-
-        public List<IdentityRole> GetAll()
+        public List<IdentityRole> All()
         {
-            return _roleRepo.All();
+            return _roleManager.Roles.ToList();
         }
 
         public void Delete(IdentityRole t)
         {
-            _roleRepo.Delete(t);
+            _roleManager.Delete(t);
         }
 
         public IdentityRole FindById(string id)
         {
-            return _roleRepo.FindById(id);
+            return _roleManager.FindById(id);
         }
 
         public void Insert(IdentityRole t)
         {
-            _roleRepo.Insert(t);
+            _roleManager.Create(t);
         }
 
         public void Update(IdentityRole t)
         {
-            _roleRepo.Update(t);
+            _roleManager.Update(t);
         }
 
     }
